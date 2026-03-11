@@ -2,15 +2,19 @@ import { IconButton } from "@mui/material";
 import "./myStyles.css"
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import NightlightIcon from '@mui/icons-material/Nightlight';
+import LightModeIcon from '@mui/icons-material/LightMode';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import SearchIcon from '@mui/icons-material/Search';
 import ConversationItem from "./ConversationItem";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 const Sidebar = () => {
+    const navigate = useNavigate();
+    const [lightTheme, setLightTheme] = useState(true);
     const [conversations, __setConversation] = useState([
         {
             name: "Test#1",
@@ -26,40 +30,57 @@ const Sidebar = () => {
             name: "Test#3",
             lastMessage: "Last Message #3",
             timeStamp: "today",
-        }
+        },
+        {
+            name: "Test#4",
+            lastMessage: "Last Message #4",
+            timeStamp: "today",
+        },
+        {
+            name: "Test#5",
+            lastMessage: "Last Message #5",
+            timeStamp: "today",
+        },
+
+
     ])
+
     return (
         <div className="sidebar-container">
-            <div className="sb-header">
+            <div className={`sb-header ${lightTheme == true ? "" : "dark"}`}>
                 <div>
-                    <IconButton>
-                        <AccountCircleIcon />
+                    <IconButton onClick={() => { navigate('') }}>
+                        <AccountCircleIcon className={`icon ${lightTheme == true ? "" : "dark"}`} />
                     </IconButton>
                 </div>
                 <div>
-                    <IconButton>
-                        <PersonAddIcon />
+                    <IconButton onClick={() => { navigate('users') }}>
+                        <PersonAddIcon className={`icon ${lightTheme == true ? "" : "dark"}`} />
                     </IconButton>
-                    <IconButton>
-                        <GroupAddIcon />
+                    <IconButton onClick={() => { navigate('groups') }}>
+                        <GroupAddIcon className={`icon ${lightTheme == true ? "" : "dark"}`} />
                     </IconButton>
-                    <IconButton>
-                        <AddCircleIcon />
+                    <IconButton onClick={() => { navigate('create-groups') }}>
+                        <AddCircleIcon className={`icon ${lightTheme == true ? "" : "dark"}`} />
                     </IconButton>
-                    <IconButton>
-                        <NightlightIcon />
+                    <IconButton onClick={() => {
+                        setLightTheme((prevValue) => {
+                            return !prevValue;
+                        })
+                    }}>
+                        {lightTheme == true ? <NightlightIcon className={`icon ${lightTheme == true ? "" : "dark"}`} /> : <LightModeIcon className={`icon ${lightTheme == true ? "" : "dark"}`} />}
                     </IconButton>
                 </div>
             </div>
-            <div className="sb-search">
+            <div className={`sb-search ${lightTheme == true ? "" : "dark"}`}>
                 <IconButton>
                     <SearchIcon />
                 </IconButton>
-                <input placeholder="Search..." className="search-box"></input>
+                <input placeholder="Search..." className={`search-box ${lightTheme == true ? "" : "dark"}`}></input>
             </div>
-            <div className="sb-conversations">
+            <div className={`sb-conversations ${lightTheme == true ? "" : "dark"}`}>
                 {conversations.map((conversation) => {
-                    return <ConversationItem props={conversation} key={conversation.name}/>
+                    return <ConversationItem props={conversation} key={conversation.name} />
                 })}
             </div>
         </div>
